@@ -62,7 +62,7 @@ const select = {
       //console.log('new Product: ', thisProduct);
       thisProduct.initAccordion();
       thisProduct.initOrderForm();
-      //thisProduct.processOrder();
+      thisProduct.processOrder();
       
     }
 
@@ -85,6 +85,7 @@ const select = {
       thisProduct.formInputs = thisProduct.form.querySelectorAll(select.all.formInputs);
       thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
       thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
+      thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
     }
     
     initAccordion(){
@@ -138,29 +139,36 @@ const select = {
       const formData = utils.serializeFormToObject(thisProduct.form);
       // set price to default price
       let price = thisProduct.data.price;
+      let image = thisProduct.imageWrapper;
       // for every category (param)...
-      for (let paramId in thisProduct.data.params) {
+      for (let paramId in thisProduct.data.params){
         //determine param value, e.g. paramId ='toppings' param = {label: 'Toppings', type: 'checkboxes'}
         const param = thisProduct.data.params[paramId];
-       // console.log('paramId:', paramId, param);
         // for every option in this category
-        for (let optionId in param.options) {
+        for (let optionId in param.options){
           //determine option value e.g. optionId = 'olives', option = { label: 'Olives', price: 2, default: true }
           const option = param.options[optionId];
-          //console.log('optionId: ', optionId,'option: ', option);
-          if (formData[paramId] && formData[paramId].includes(optionId)){
-          if(option.default != true){
+          //create slector for images e.g 'topping-salami'
+          const optionImageClass = ('.' + paramId + '-' + optionId);
+          const optionImage = image.querySelector(optionImageClass);
+          const optionSelected = formData[paramId] && formData[paramId].includes(optionId);
+          if (optionSelected){
+            if(option.default != true){
             price += option.price;
-          }}
-            if (option.default && !formData[paramId].includes(optionId)){
-              console.log('option ',option.default);
-              console.log('includes ',formData[paramId].includes(optionId));
-              console.log('paramId ',formData[paramId]);
-              console.log('optionID ',optionId);
-              console.log('thisProduct ',thisProduct.data.params);
-              console.log('paramId ',paramId);
-              console.log('param param ', param.options);
+            }
+          }
+          if (option.default && !formData[paramId].includes(optionId)){
               price -= option.price;
+          }
+          if (optionSelected){
+            if(optionImage){
+            optionImage.classList.add(classNames.menuProduct.imageVisible);
+            }
+          }
+          if (!formData[paramId].includes(optionId)){
+            if(optionImage){
+            optionImage.classList.remove(classNames.menuProduct.imageVisible); 
+            }
           }
         }
       }
@@ -169,7 +177,6 @@ const select = {
     }
   }
   
-
   const app = {
     initMenu: function(){
       const thisApp = this;
