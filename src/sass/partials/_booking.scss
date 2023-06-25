@@ -171,8 +171,13 @@
           background: $color-dark;
           opacity: 0.4;
         }
-  
+        
       }
+     
+    }
+
+    .table.clicked {
+      background: $color-success;
     }
   
     [data-table="1"] {

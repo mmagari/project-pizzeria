@@ -69,14 +69,14 @@
         return rawResponse.json();
       })
       .then(function(parsedResponse){
-        console.log('parseResponse: ', parsedResponse);
+        //console.log('parseResponse: ', parsedResponse);
         /*save parsedResponse as thisApp.data.products */
         thisApp.data.products = parsedResponse;
         /*execute initMenu method */
         thisApp.initMenu();
 
       })
-      console.log('thisApp.data', JSON.stringify(thisApp.data));
+      //console.log('thisApp.data', JSON.stringify(thisApp.data));
     },
 
     initCart: function () {
