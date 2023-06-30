@@ -2,16 +2,17 @@
   import Product from './components/product.js';
   import Cart from './components/cart.js';
   import Booking from './components/booking.js';
+  import Home from './components/home.js';
+
   const app = {
     initPages: function(){
       const thisApp = this;
       
       thisApp.pages = document.querySelector(select.containerOf.pages).children;
       thisApp.navLinks = document.querySelectorAll(select.nav.links);
-      
       const idFromHash = window.location.hash.replace('#/', '');
 
-      let pageMatchingHash = thisApp.pages[0].id;
+      let pageMatchingHash = thisApp.pages[2].id;
 
       for (let page of thisApp.pages){
         if (page.id == idFromHash){
@@ -97,6 +98,12 @@
       thisApp.booking = new Booking(bookingContainer);
     },
 
+    initHome: function (){
+      const thisApp = this;
+      const homeContainer = document.querySelector(select.containerOf.home);
+      thisApp.home = new Home(homeContainer);
+    },
+
     init: function () {
       const thisApp = this;
       console.log('*** App starting ***');
@@ -108,6 +115,7 @@
       thisApp.initCart();
       thisApp.initPages();
       thisApp.initBooking();
+      thisApp.initHome();
     },
 
   };
